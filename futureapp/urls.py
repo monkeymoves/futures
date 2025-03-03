@@ -15,8 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from core.views import home, horizon_scanning
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('horizon-scanning/', horizon_scanning, name='horizon_scanning'),
+
+
 ]
+
+
