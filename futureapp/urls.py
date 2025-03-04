@@ -14,17 +14,32 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# from django.contrib import admin
+# from django.urls import include, path
+# from core.views import home
+# from tools.views import horizon_scanning
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('', home, name='home'),
+#     path('accounts/', include('django.contrib.auth.urls')),
+#     path('horizon-scanning/', horizon_scanning, name='horizon_scanning'),
+
+
+# ]
+
+# futureapp/urls.py
 from django.contrib import admin
 from django.urls import include, path
-from core.views import home, horizon_scanning
+from core.views import home
+from tools.views.horizon_scanning import horizon_scanning # Correct import
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('horizon-scanning/', horizon_scanning, name='horizon_scanning'),
-
-
 ]
+
 
 
