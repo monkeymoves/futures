@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
     'accounts',
     'tools',
 ]
@@ -62,7 +61,7 @@ ROOT_URLCONF = 'futureapp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # clearly pointing to templates folder at root
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'tools/templates',],  # clearly pointing to templates folder at root
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,3 +129,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGOUT_REDIRECT_URL = 'home'
+
+LOGIN_REDIRECT_URL = 'home'

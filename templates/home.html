@@ -1,0 +1,17 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome to FUTURE</h1>
+<p>
+    This is a collection of tools and policy pathways.
+    Use the app to assist in your forward thinking and long term planning
+</p>
+{% if user.is_authenticated %}
+<p>Welcome, {{ user.username }}! <a href="{% url 'projects' %}">Start a Project</a> or select an existing project</p>
+{% else %}
+<p>
+    <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'signup' %}">Sign Up</a>
+    to start creating projects and using our tools.
+</p>
+{% endif %}
+{% endblock %}

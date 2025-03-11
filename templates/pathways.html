@@ -1,0 +1,16 @@
+<!-- templates/pathways.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Select a Pathway</h1>
+
+{% if pathways %}
+    <ul>
+        {% for pathway in pathways %}
+            <li><a href="">{{ pathway.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No pathways available.</p>
+{% endif %}
+{% endblock %}

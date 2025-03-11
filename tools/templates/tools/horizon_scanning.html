@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <!-- templates/tools/horizon_scanning.html -->
 <h2>Horizon Scanning Tool</h2>
 <form method="post">
@@ -5,3 +7,4 @@
     {{ form.as_p }}
     <button type="submit">Submit Scan</button>
 </form>
+{% endblock %}

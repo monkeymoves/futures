@@ -1,0 +1,23 @@
+<!-- templates/projects.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h1>Your Projects</h1>
+
+<h2>Existing Projects</h2>
+{% if projects %}
+    <ul>
+        {% for project in projects %}
+            <li><a href="">{{ project.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You don't have any projects yet.</p>
+{% endif %}
+
+<h2>Create a New Project</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Project</button>
+</form>
+{% endblock %}
