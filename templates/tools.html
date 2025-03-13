@@ -1,0 +1,16 @@
+<!-- templates/tools.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Select a Tool</h1>
+
+{% if tools %}
+    <ul>
+        {% for tool in tools %}
+            <li><a href="{% url tool.name|slugify %}">{{ tool.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No tools available.</p>
+{% endif %}
+{% endblock %}

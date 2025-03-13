@@ -1,16 +1,21 @@
 # tools/views/horizon_scanning.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from tools.models import Tool, Pathway, Project, UserInput
+from tools.models import Tool, Pathway, Project, UserInput, HorizonScan
 from tools.forms.horizon_scanning_form import HorizonScanningForm
 
 @login_required
 def horizon_scanning(request):
     if request.method == 'POST':
-        form = HorizonScanningForm(request.user, request.POST)
+        # remove the user argument
+        form = HorizonScanningForm(request.POST)
         if form.is_valid():
-            user_input = form.save(commit=False)  # Create UserInput object but don't save yet
-            project = form.cleaned_data['project'] # retrieve the project that has been selected.
+            #get project
+            project = Project.objects.first() # this will be changed to use sessions.
+
+            horizon_scan = form.save()
+            horizon_scan.project = project
+            horizon_scan.save()
 
             # Get or create a pathway for 'Strategic Analysis'
             pathway, created = Pathway.objects.get_or_create(
@@ -28,13 +33,18 @@ def horizon_scanning(request):
             # Associate the tool with the pathway
             horizon_tool.pathways.add(pathway)
 
-            user_input.tool = horizon_tool
+            user_input, created = UserInput.objects.get_or_create(
+                project=project,
+                tool=horizon_tool
+            )
+            user_input.horizonscan = horizon_scan
             user_input.save()
 
             return redirect('home')
         else:
             print(form.errors)
     else:
-        form = HorizonScanningForm(request.user)
+        # remove the user argument
+        form = HorizonScanningForm()
 
     return render(request, 'tools/horizon_scanning.html', {'form': form})
