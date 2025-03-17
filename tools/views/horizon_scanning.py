@@ -3,17 +3,28 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from tools.models import Tool, Pathway, Project, UserInput, HorizonScan
 from tools.forms.horizon_scanning_form import HorizonScanningForm
+from django.http import Http404
 
 @login_required
 def horizon_scanning(request):
+    # Get the project ID from the session
+    project_id = request.session.get('project_id')
+
+    # If there's no project ID in the session, raise a 404 error
+    if not project_id:
+        raise Http404("No project selected.")
+
+    # Retrieve the project
+    try:
+        project = Project.objects.get(id=project_id)
+    except Project.DoesNotExist:
+        raise Http404("Project does not exist.")
+
     if request.method == 'POST':
         # remove the user argument
         form = HorizonScanningForm(request.POST)
         if form.is_valid():
-            #get project
-            project = Project.objects.first() # this will be changed to use sessions.
-
-            horizon_scan = form.save()
+            horizon_scan = form.save(commit=False)
             horizon_scan.project = project
             horizon_scan.save()
 

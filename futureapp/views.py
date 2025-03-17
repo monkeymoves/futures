@@ -9,11 +9,20 @@ from tools.forms.project_form import ProjectForm
 from django.contrib.auth import login
 
 def home(request):
-    return render(request, 'home.html')
+    # Check if the user is logged in
+    if request.user.is_authenticated:
+        # Get the user's projects
+        projects = Project.objects.filter(user=request.user)
+        # Pass the projects to the template
+        return render(request, 'home.html', {'projects': projects})
+    else:
+        # User is not logged in, render the default home page
+        return render(request, 'home.html')
+
 
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy("login")
+    success_url = reverse_lazy("login") 
     template_name = "registration/signup.html"
 
 @login_required
@@ -24,6 +33,8 @@ def projects(request):
             project = form.save(commit=False)
             project.user = request.user
             project.save()
+            # Store the project ID in the session
+            request.session['project_id'] = project.id
             return redirect('pathways')  # Redirect to pathway selection (next step)
         else:
             print(form.errors)
