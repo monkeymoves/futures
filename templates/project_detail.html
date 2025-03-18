@@ -5,8 +5,6 @@
     <h1>{{ project.title }}</h1>
     <p>Created at: {{ project.created_at }}</p>
     <p>Owner: {{ project.user.username }}</p>
-    <a href="{% url 'horizon_scan_tool' project.slug %}" class="btn btn-primary">Horizon Scan</a>
-    <a href="{% url 'pestle_tool_project' project.slug %}" class="btn btn-primary">PESTLE</a>
     <h2>Pathways</h2>
     {% if project.pathways.all %}
     <ul class="list-group">

@@ -2,6 +2,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if projects %}
+<h2>Your Projects</h2>
+<ul class="list-group">
+    {% for project in projects %}
+        <li class="list-group-item"><a href="{% url 'project_detail' project.slug %}">{{ project.title }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You don't have any projects yet.</p>
+{% endif %}
+
     <h1>Create a Project</h1>
     <form method="post" class="mb-4">
         {% csrf_token %}
@@ -57,14 +68,5 @@
         </div>
         <button type="submit" class="btn btn-primary">Create Project</button>
     </form>
-    {% if projects %}
-        <h2>Your Projects</h2>
-        <ul class="list-group">
-            {% for project in projects %}
-                <li class="list-group-item"><a href="{% url 'project_detail' project.slug %}">{{ project.title }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You don't have any projects yet.</p>
-    {% endif %}
+   
 {% endblock %}

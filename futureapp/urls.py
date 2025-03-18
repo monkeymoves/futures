@@ -23,8 +23,6 @@ urlpatterns = [
     path('tools/policy-stress-testing/', views.policy_stress_testing, name='policy_stress_testing'),
     path('tools/roadmapping/', views.roadmapping, name='roadmapping'),
     path('tools/backcasting/', views.backcasting, name='backcasting'),
-    path('tools/pestle/', views.pestle_tool_project, name='pestle_tool'),
+    path('tools/pestle/', views.pestle, name='pestle'),
     path('projects/<slug:project_slug>/', views.project_detail, name='project_detail'),
-    path('projects/<slug:project_slug>/horizon-scan/', views.horizon_scan_tool, name='horizon_scan_tool'),
-    path('projects/<slug:project_slug>/pestle/', views.pestle_tool_project, name='pestle_tool_project'),
 ]

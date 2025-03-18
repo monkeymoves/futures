@@ -81,29 +81,8 @@ def seven_questions(request):
     return render(request, 'seven_questions.html')
 
 @login_required
-def horizon_scan_tool(request, project_slug):
-    """
-    Displays the Horizon Scanning page for a specific project.
-
-    Args:
-        request: The HTTP request object.
-        project_slug: The slug of the project.
-
-    Returns:
-        An HTTP response rendering the horizon_scan.html template.
-    """
-    project = get_object_or_404(Project, slug=project_slug, user=request.user)
-    horizon_scan_data = HorizonScan.objects.filter(project=project).first()
-    return render(request, 'horizon_scan_tool.html', {'project': project, 'horizon_scan_data': horizon_scan_data})
-
-
-@login_required
 def three_horizons(request):
     return render(request, 'three_horizons.html')
-
-@login_required
-def horizon_scanning(request):
-    return render(request, 'horizon_scanning.html')
 
 
 @login_required
@@ -139,17 +118,9 @@ def backcasting(request):
     return render(request, 'backcasting.html')
 
 @login_required
-def pestle_tool_project(request, project_slug):
-    """
-    Displays the PESTLE page for a specific project.
+def pestle(request):
+    return render(request, 'pestle.html')
 
-    Args:
-        request: The HTTP request object.
-        project_slug: The slug of the project.
-
-    Returns:
-        An HTTP response rendering the pestle.html template.
-    """
-    project = get_object_or_404(Project, slug=project_slug, user=request.user)
-    pestle_data = Pestle.objects.filter(project=project).first()
-    return render(request, 'pestle_tool_project.html', {'project': project, 'pestle_data': pestle_data})
+@login_required
+def horizon_scanning(request):
+    return render(request, 'horizon_scanning.html')

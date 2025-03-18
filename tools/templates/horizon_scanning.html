@@ -1,10 +1,6 @@
+<!-- templates/horizon_scanning.html -->
 {% extends 'base.html' %}
+
 {% block content %}
-<!-- templates/tools/horizon_scanning.html -->
-<h2>Horizon Scanning Tool</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit Scan</button>
-</form>
+    <h1>Horizon Scanning</h1>
 {% endblock %}
