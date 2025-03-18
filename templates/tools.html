@@ -2,15 +2,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Select a Tool</h1>
-
-{% if tools %}
+    <h1>Tools</h1>
+    <h2>What is changing?</h2>
     <ul>
-        {% for tool in tools %}
-            <li><a href="{% url tool.name|slugify %}">{{ tool.name }}</a></li>
-        {% endfor %}
+        <li><a href="{% url 'delphi' %}">Delphi</a></li>
+        <li><a href="{% url 'seven_questions' %}">Seven Questions</a></li>
+        <li><a href="{% url 'horizon_scanning' %}">Horizon scanning</a></li>
+        <li><a href="{% url 'three_horizons' %}">Three Horizons</a></li>
+        <li><a href="{% url 'driver_mapping' %}">Driver mapping</a></li>
     </ul>
-{% else %}
-    <p>No tools available.</p>
-{% endif %}
+    <h2>So what for our futures?</h2>
+    <ul>
+        <li><a href="{% url 'swot' %}">SWOT</a></li>
+        <li><a href="{% url 'scenarios' %}">Scenarios</a></li>
+        <li><a href="{% url 'visioning' %}">Visioning</a></li>
+        <li><a href="{% url 'futures_wheels' %}">Futures Wheels</a></li>
+    </ul>
+    <h2>Now what do we do?</h2>
+    <ul>
+        <li><a href="{% url 'policy_stress_testing' %}">Policy Stress-testing</a></li>
+        <li><a href="{% url 'roadmapping' %}">Roadmapping</a></li>
+        <li><a href="{% url 'backcasting' %}">Backcasting</a></li>
+        <li><a href="{% url 'pestle_tool' %}">PESTLE</a></li>
+    </ul>
 {% endblock %}

@@ -1,23 +1,70 @@
 <!-- templates/projects.html -->
 {% extends 'base.html' %}
+
 {% block content %}
-<h1>Your Projects</h1>
-
-<h2>Existing Projects</h2>
-{% if projects %}
-    <ul>
-        {% for project in projects %}
-            <li><a href="">{{ project.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>You don't have any projects yet.</p>
-{% endif %}
-
-<h2>Create a New Project</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Project</button>
-</form>
+    <h1>Create a Project</h1>
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        {% if errors %}
+            <div class="alert alert-danger">
+                {% for field, error_list in errors.items %}
+                    {% for error in error_list %}
+                        <p>{{ field }}: {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="text-danger">
+                    {{ form.title.errors.0 }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.pathways.label_tag }}
+            <div>
+                {% for pathway in form.pathways %}
+                    <div class="form-check">
+                        {{ pathway.tag }}
+                        <label class="form-check-label" for="{{ pathway.id_for_label }}">{{ pathway.choice_label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if form.pathways.errors %}
+                <div class="text-danger">
+                    {{ form.pathways.errors.0 }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.tools.label_tag }}
+            <div>
+                {% for tool in form.tools %}
+                    <div class="form-check">
+                        {{ tool.tag }}
+                        <label class="form-check-label" for="{{ tool.id_for_label }}">{{ tool.choice_label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if form.tools.errors %}
+                <div class="text-danger">
+                    {{ form.tools.errors.0 }}
+                </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Create Project</button>
+    </form>
+    {% if projects %}
+        <h2>Your Projects</h2>
+        <ul class="list-group">
+            {% for project in projects %}
+                <li class="list-group-item"><a href="{% url 'project_detail' project.slug %}">{{ project.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You don't have any projects yet.</p>
+    {% endif %}
 {% endblock %}
