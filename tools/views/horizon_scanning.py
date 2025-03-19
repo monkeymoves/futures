@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from tools.models import Tool, Pathway, Project, UserInput, HorizonScan
-from tools.forms.horizon_scanning_form import HorizonScanningForm
+from tools.forms.horizon_scan_form import HorizonScanningForm
 from django.http import Http404
 
 @login_required

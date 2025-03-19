@@ -2,71 +2,87 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if projects %}
-<h2>Your Projects</h2>
-<ul class="list-group">
-    {% for project in projects %}
-        <li class="list-group-item"><a href="{% url 'project_detail' project.slug %}">{{ project.title }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>You don't have any projects yet.</p>
-{% endif %}
-
-    <h1>Create a Project</h1>
-    <form method="post" class="mb-4">
-        {% csrf_token %}
-        {% if errors %}
-            <div class="alert alert-danger">
-                {% for field, error_list in errors.items %}
-                    {% for error in error_list %}
-                        <p>{{ field }}: {{ error }}</p>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Your Projects</h5>
+                {% if projects %}
+                <div class="list-group">
+                    {% for project in projects %}
+                    <a href="{% url 'project_detail' project.slug %}" class="list-group-item list-group-item-action">
+                        <h6 class="mb-1">{{ project.title }}</h6>
+                        <small>Created at: {{ project.created_at|date:"F j, Y, g:i a" }}</small>
+                    </a>
                     {% endfor %}
-                {% endfor %}
-            </div>
-        {% endif %}
-        <div class="mb-3">
-            {{ form.title.label_tag }}
-            {{ form.title }}
-            {% if form.title.errors %}
-                <div class="text-danger">
-                    {{ form.title.errors.0 }}
                 </div>
-            {% endif %}
+                {% else %}
+                <p class="card-text">You don't have any projects yet.</p>
+                {% endif %}
+            </div>
         </div>
-        <div class="mb-3">
-            {{ form.pathways.label_tag }}
-            <div>
-                {% for pathway in form.pathways %}
-                    <div class="form-check">
-                        {{ pathway.tag }}
-                        <label class="form-check-label" for="{{ pathway.id_for_label }}">{{ pathway.choice_label }}</label>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Create a New Project</h5>
+                <p class="card-text">Start a new project to explore the future.</p>
+                <form method="post" class="mb-4">
+                    {% csrf_token %}
+                    {% if errors %}
+                        <div class="alert alert-danger">
+                            {% for field, error_list in errors.items %}
+                                {% for error in error_list %}
+                                    <p>{{ field }}: {{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        {{ form.title.label_tag }}
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="text-danger">
+                                {{ form.title.errors.0 }}
+                            </div>
+                        {% endif %}
                     </div>
-                {% endfor %}
-            </div>
-            {% if form.pathways.errors %}
-                <div class="text-danger">
-                    {{ form.pathways.errors.0 }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="mb-3">
-            {{ form.tools.label_tag }}
-            <div>
-                {% for tool in form.tools %}
-                    <div class="form-check">
-                        {{ tool.tag }}
-                        <label class="form-check-label" for="{{ tool.id_for_label }}">{{ tool.choice_label }}</label>
+                    <div class="mb-3">
+                        {{ form.pathways.label_tag }}
+                        <div>
+                            {% for pathway in form.pathways %}
+                                <div class="form-check">
+                                    {{ pathway.tag }}
+                                    <label class="form-check-label" for="{{ pathway.id_for_label }}">{{ pathway.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.pathways.errors %}
+                            <div class="text-danger">
+                                {{ form.pathways.errors.0 }}
+                            </div>
+                        {% endif %}
                     </div>
-                {% endfor %}
+                    <div class="mb-3">
+                        {{ form.tools.label_tag }}
+                        <div>
+                            {% for tool in form.tools %}
+                                <div class="form-check">
+                                    {{ tool.tag }}
+                                    <label class="form-check-label" for="{{ tool.id_for_label }}">{{ tool.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.tools.errors %}
+                            <div class="text-danger">
+                                {{ form.tools.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Project</button>
+                </form>
             </div>
-            {% if form.tools.errors %}
-                <div class="text-danger">
-                    {{ form.tools.errors.0 }}
-                </div>
-            {% endif %}
         </div>
-        <button type="submit" class="btn btn-primary">Create Project</button>
-    </form>
-   
+    </div>
+</div>
 {% endblock %}

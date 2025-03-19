@@ -3,26 +3,30 @@
 
 {% block content %}
     <h1>Tools</h1>
+    {% if project %}
     <h2>What is changing?</h2>
     <ul>
-        <li><a href="{% url 'delphi' %}">Delphi</a></li>
-        <li><a href="{% url 'seven_questions' %}">Seven Questions</a></li>
-        <li><a href="{% url 'horizon_scanning' %}">Horizon scanning</a></li>
-        <li><a href="{% url 'three_horizons' %}">Three Horizons</a></li>
-        <li><a href="{% url 'driver_mapping' %}">Driver mapping</a></li>
+            <li><a href="{% url 'delphi' project.slug %}">Delphi</a></li>
+            <li><a href="{% url 'seven_questions' project.slug %}">Seven Questions</a></li>
+            <li><a href="{% url 'horizon_scanning' project.slug %}">Horizon scanning</a></li>
+            <li><a href="{% url 'three_horizons' project.slug %}">Three Horizons</a></li>
+            <li><a href="{% url 'driver_mapping' project.slug %}">Driver mapping</a></li>
     </ul>
     <h2>So what for our futures?</h2>
     <ul>
-        <li><a href="{% url 'swot' %}">SWOT</a></li>
-        <li><a href="{% url 'scenarios' %}">Scenarios</a></li>
-        <li><a href="{% url 'visioning' %}">Visioning</a></li>
-        <li><a href="{% url 'futures_wheels' %}">Futures Wheels</a></li>
+            <li><a href="{% url 'swot' project.slug %}">SWOT</a></li>
+            <li><a href="{% url 'scenarios' project.slug %}">Scenarios</a></li>
+            <li><a href="{% url 'visioning' project.slug %}">Visioning</a></li>
+            <li><a href="{% url 'futures_wheels' project.slug %}">Futures Wheels</a></li>
     </ul>
     <h2>Now what do we do?</h2>
     <ul>
-        <li><a href="{% url 'policy_stress_testing' %}">Policy Stress-testing</a></li>
-        <li><a href="{% url 'roadmapping' %}">Roadmapping</a></li>
-        <li><a href="{% url 'backcasting' %}">Backcasting</a></li>
-        <li><a href="{% url 'pestle' %}">PESTLE</a></li>
+            <li><a href="{% url 'policy_stress_testing' project.slug %}">Policy Stress-testing</a></li>
+            <li><a href="{% url 'roadmapping' project.slug %}">Roadmapping</a></li>
+            <li><a href="{% url 'backcasting' project.slug %}">Backcasting</a></li>
+            <li><a href="{% url 'pestle' project.slug %}">PESTLE</a></li>
     </ul>
+    {% else %}
+    <p>Please select a project to use the tools.</p>
+    {% endif %}
 {% endblock %}

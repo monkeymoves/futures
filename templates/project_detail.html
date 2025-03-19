@@ -7,23 +7,26 @@
     <p>Owner: {{ project.user.username }}</p>
     <h2>Pathways</h2>
     {% if project.pathways.all %}
-    <ul class="list-group">
-        {% for pathway in project.pathways.all %}
-            <li class="list-group-item">{{ pathway.name }}</li>
-        {% endfor %}
-    </ul>
+        <ul class="list-group">
+            {% for pathway in project.pathways.all %}
+                <li class="list-group-item">{{ pathway.name }}</li>
+            {% endfor %}
+        </ul>
     {% else %}
         <p>No pathways selected.</p>
     {% endif %}
 
     <h2>Tools</h2>
     {% if project.tools.all %}
-    <ul class="list-group">
-        {% for tool in project.tools.all %}
-            <li class="list-group-item">{{ tool.name }}</li>
-        {% endfor %}
-    </ul>
+        <ul class="list-group">
+            {% for tool in project.tools.all %}
+                <li class="list-group-item">
+                    <a href="{% url tool.name project.slug %}" class="btn btn-primary">{{ tool.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
         <p>No tools selected.</p>
+        <a href="{% url 'tools' %}?project_slug={{ project.slug }}" class="btn btn-primary">Select Tools</a>
     {% endif %}
 {% endblock %}
