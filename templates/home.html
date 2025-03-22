@@ -2,6 +2,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container py-5">
+    <h1 class="display-5 mb-4">Welcome to the Futures Toolkit</h1>
+    <p class="lead">Explore uncertainty, imagine futures, and build better strategy — with a structured set of tools.</p>
+  
+    {% if user.is_authenticated %}
+      <div class="alert alert-success">
+        Hello {{ user.username }} — <a href="{% url 'projects' %}">go to your projects</a> or jump straight into a tool below.
+      </div>
+    {% else %}
+      <div class="alert alert-info">
+        You’re viewing in preview mode. <a href="{% url 'login' %}">Log in</a> to save your work and create projects.
+      </div>
+    {% endif %}
+  
+    <hr class="my-4">
+  
+    <h2 class="h4 text-primary mt-5">WHAT is changing?</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      <div class="col"><a href="/tools/delphi/" class="btn btn-outline-primary w-100">Delphi</a></div>
+      <div class="col"><a href="/tools/seven-questions/" class="btn btn-outline-primary w-100">Seven Questions</a></div>
+      <div class="col"><a href="/tools/horizon-scanning/" class="btn btn-outline-primary w-100">Horizon Scanning</a></div>
+      <div class="col"><a href="/tools/three-horizons/" class="btn btn-outline-primary w-100">Three Horizons</a></div>
+      <div class="col"><a href="/tools/driver-mapping/" class="btn btn-outline-primary w-100">Driver Mapping</a></div>
+    </div>
+  
+    <h2 class="h4 text-success mt-5">SO WHAT for our futures?</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      <div class="col"><a href="/tools/swot/" class="btn btn-outline-success w-100">SWOT Analysis</a></div>
+      <div class="col"><a href="/tools/scenarios/" class="btn btn-outline-success w-100">Scenarios</a></div>
+      <div class="col"><a href="/tools/visioning/" class="btn btn-outline-success w-100">Visioning</a></div>
+      <div class="col"><a href="/tools/futures-wheels/" class="btn btn-outline-success w-100">Futures Wheels</a></div>
+    </div>
+  
+    <h2 class="h4 text-warning mt-5">NOW WHAT do we do?</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      <div class="col"><a href="/tools/policy-stress-testing/" class="btn btn-outline-warning w-100">Policy Stress-testing</a></div>
+      <div class="col"><a href="/tools/roadmapping/" class="btn btn-outline-warning w-100">Roadmapping</a></div>
+      <div class="col"><a href="/tools/backcasting/" class="btn btn-outline-warning w-100">Backcasting</a></div>
+    </div>
+  
+    <hr class="my-5">
+  
+    <div class="text-center text-muted">
+      <small>This toolkit is open to explore. Logged-in users can save work and link tools to their projects.</small>
+    </div>
+  </div>
 {% if user.is_authenticated %}
 <div class="row">
     <div class="col-md-6">

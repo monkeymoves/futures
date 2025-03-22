@@ -4,10 +4,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from tools.models import Pathway, Project, Tool, HorizonScan, Pestle
+from tools.models import Project, Tool
 from tools.forms.project_form import ProjectForm
-from tools.forms.horizon_scan_form import HorizonScanForm
-from tools.forms.pestle_form import PestleForm
 from django.utils.text import slugify
 from tools.forms.delphi_form import DelphiForm
 from tools.forms.seven_questions_form import SevenQuestionsForm
@@ -20,6 +18,8 @@ from tools.forms.futures_wheels_form import FuturesWheelsForm
 from tools.forms.policy_stress_testing_form import PolicyStressTestingForm
 from tools.forms.roadmapping_form import RoadmappingForm
 from tools.forms.backcasting_form import BackcastingForm
+from tools.forms.horizon_scan_form import HorizonScanForm
+from tools.forms.pestle_form import PestleForm
 
 
 def home(request):
@@ -60,10 +60,6 @@ def projects(request):
     projects = Project.objects.filter(user=request.user)
     return render(request, 'projects.html', {'form': form, 'projects': projects})
 
-@login_required
-def pathways(request):
-    pathways = Pathway.objects.all()
-    return render(request, 'pathways.html', {'pathways': pathways})
 
 @login_required
 def tools(request):
@@ -72,6 +68,9 @@ def tools(request):
     project = None
     if project_slug:
         project = get_object_or_404(Project, slug=project_slug, user=request.user)
+        for tool in tools:
+            tool.project = project
+            tool.save()
     return render(request, 'tools.html', {'tools': tools, 'project': project, 'project_slug': project_slug})
 
 @login_required
@@ -88,43 +87,6 @@ def project_detail(request, project_slug):
     """
     project = get_object_or_404(Project, slug=project_slug, user=request.user)
     return render(request, 'project_detail.html', {'project': project})
-
-@login_required
-def horizon_scanning(request, project_slug=None):
-    project = None
-    if project_slug:
-        project = get_object_or_404(Project, slug=project_slug, user=request.user)
-
-    if request.method == 'POST':
-        form = HorizonScanForm(request.POST)
-        if form.is_valid():
-            horizon_scan = form.save(commit=False)
-            if project:
-                horizon_scan.project = project
-            horizon_scan.save()
-            if project:
-                return redirect('project_detail', project_slug=project.slug)
-    else:
-        form = HorizonScanForm()
-    return render(request, 'horizon_scanning.html', {'form': form, 'project':project})
-
-@login_required
-def pestle(request, project_slug=None):
-    project = None
-    if project_slug:
-        project = get_object_or_404(Project, slug=project_slug, user=request.user)
-    if request.method == 'POST':
-        form = PestleForm(request.POST)
-        if form.is_valid():
-            pestle = form.save(commit=False)
-            if project:
-                pestle.project = project
-            pestle.save()
-            if project:
-                return redirect('project_detail', project_slug=project.slug)
-    else:
-        form = PestleForm()
-    return render(request, 'pestle.html', {'form': form, 'project':project})
 
 @login_required
 def delphi(request, project_slug=None):
@@ -213,3 +175,40 @@ def backcasting(request, project_slug=None):
         project = get_object_or_404(Project, slug=project_slug, user=request.user)
     form = BackcastingForm()
     return render(request, 'backcasting.html', {'form': form, 'project': project})
+
+@login_required
+def horizon_scanning(request, project_slug=None):
+    project = None
+    if project_slug:
+        project = get_object_or_404(Project, slug=project_slug, user=request.user)
+
+    if request.method == 'POST':
+        form = HorizonScanForm(request.POST)
+        if form.is_valid():
+            horizon_scan = form.save(commit=False)
+            if project:
+                horizon_scan.project = project
+            horizon_scan.save()
+            if project:
+                return redirect('project_detail', project_slug=project.slug)
+    else:
+        form = HorizonScanForm()
+    return render(request, 'horizon_scanning.html', {'form': form, 'project':project})
+
+@login_required
+def pestle(request, project_slug=None):
+    project = None
+    if project_slug:
+        project = get_object_or_404(Project, slug=project_slug, user=request.user)
+    if request.method == 'POST':
+        form = PestleForm(request.POST)
+        if form.is_valid():
+            pestle = form.save(commit=False)
+            if project:
+                pestle.project = project
+            pestle.save()
+            if project:
+                return redirect('project_detail', project_slug=project.slug)
+    else:
+        form = PestleForm()
+    return render(request, 'pestle.html', {'form': form, 'project':project})

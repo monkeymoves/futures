@@ -47,22 +47,7 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div class="mb-3">
-                        {{ form.pathways.label_tag }}
-                        <div>
-                            {% for pathway in form.pathways %}
-                                <div class="form-check">
-                                    {{ pathway.tag }}
-                                    <label class="form-check-label" for="{{ pathway.id_for_label }}">{{ pathway.choice_label }}</label>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        {% if form.pathways.errors %}
-                            <div class="text-danger">
-                                {{ form.pathways.errors.0 }}
-                            </div>
-                        {% endif %}
-                    </div>
+
                     <div class="mb-3">
                         {{ form.tools.label_tag }}
                         <div>
