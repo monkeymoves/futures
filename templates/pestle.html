@@ -2,5 +2,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>PESTLE</h1>
+<div class="container py-5">
+    <h1>PESTLE Analysis</h1>
+    <p>Use this tool to analyse the Political, Economic, Social, Technological, Legal and Environmental factors that may impact your future.</p>
+
+    {% if not user.is_authenticated %}
+        <div class="alert alert-info">
+            You are viewing in preview mode. <a href="{% url 'login' %}">Log in</a> to save your PESTLE analysis to a project.
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if user.is_authenticated %}
+            <button type="submit" class="btn btn-primary">Save PESTLE</button>
+        {% endif %}
+    </form>
+</div>
 {% endblock %}

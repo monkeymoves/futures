@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required # Removed login_required from here
 from tools.models import Project, Tool
 from tools.forms.project_form import ProjectForm
 from django.utils.text import slugify
@@ -39,7 +39,8 @@ class SignUp(generic.CreateView):
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
 
-@login_required
+
+# @login_required # Removed login_required from here
 def projects(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
@@ -61,7 +62,7 @@ def projects(request):
     return render(request, 'projects.html', {'form': form, 'projects': projects})
 
 
-@login_required
+# @login_required # Removed login_required from here
 def tools(request):
     tools = Tool.objects.all()
     project_slug = request.GET.get('project_slug')
@@ -73,7 +74,8 @@ def tools(request):
             tool.save()
     return render(request, 'tools.html', {'tools': tools, 'project': project, 'project_slug': project_slug})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def project_detail(request, project_slug):
     """
     Displays the details of a specific project.
@@ -86,9 +88,11 @@ def project_detail(request, project_slug):
         An HTTP response rendering the project_detail.html template.
     """
     project = get_object_or_404(Project, slug=project_slug, user=request.user)
-    return render(request, 'project_detail.html', {'project': project})
+    pestle_tools = Tool.objects.filter(project=project, name="pestle")
+    return render(request, 'project_detail.html', {'project': project, 'pestle_tools': pestle_tools})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def delphi(request, project_slug=None):
     project = None
     if project_slug:
@@ -96,7 +100,8 @@ def delphi(request, project_slug=None):
     form = DelphiForm()
     return render(request, 'delphi.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def seven_questions(request, project_slug=None):
     project = None
     if project_slug:
@@ -104,7 +109,8 @@ def seven_questions(request, project_slug=None):
     form = SevenQuestionsForm()
     return render(request, 'seven_questions.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def three_horizons(request, project_slug=None):
     project = None
     if project_slug:
@@ -112,7 +118,8 @@ def three_horizons(request, project_slug=None):
     form = ThreeHorizonsForm()
     return render(request, 'three_horizons.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def driver_mapping(request, project_slug=None):
     project = None
     if project_slug:
@@ -120,7 +127,8 @@ def driver_mapping(request, project_slug=None):
     form = DriverMappingForm()
     return render(request, 'driver_mapping.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def swot(request, project_slug=None):
     project = None
     if project_slug:
@@ -128,7 +136,8 @@ def swot(request, project_slug=None):
     form = SwotForm()
     return render(request, 'swot.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def scenarios(request, project_slug=None):
     project = None
     if project_slug:
@@ -136,7 +145,8 @@ def scenarios(request, project_slug=None):
     form = ScenariosForm()
     return render(request, 'scenarios.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def visioning(request, project_slug=None):
     project = None
     if project_slug:
@@ -144,7 +154,8 @@ def visioning(request, project_slug=None):
     form = VisioningForm()
     return render(request, 'visioning.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def futures_wheels(request, project_slug=None):
     project = None
     if project_slug:
@@ -152,7 +163,8 @@ def futures_wheels(request, project_slug=None):
     form = FuturesWheelsForm()
     return render(request, 'futures_wheels.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def policy_stress_testing(request, project_slug=None):
     project = None
     if project_slug:
@@ -160,7 +172,8 @@ def policy_stress_testing(request, project_slug=None):
     form = PolicyStressTestingForm()
     return render(request, 'policy_stress_testing.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def roadmapping(request, project_slug=None):
     project = None
     if project_slug:
@@ -168,7 +181,8 @@ def roadmapping(request, project_slug=None):
     form = RoadmappingForm()
     return render(request, 'roadmapping.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def backcasting(request, project_slug=None):
     project = None
     if project_slug:
@@ -176,7 +190,8 @@ def backcasting(request, project_slug=None):
     form = BackcastingForm()
     return render(request, 'backcasting.html', {'form': form, 'project': project})
 
-@login_required
+
+# @login_required # Removed login_required from here
 def horizon_scanning(request, project_slug=None):
     project = None
     if project_slug:
@@ -193,22 +208,50 @@ def horizon_scanning(request, project_slug=None):
                 return redirect('project_detail', project_slug=project.slug)
     else:
         form = HorizonScanForm()
-    return render(request, 'horizon_scanning.html', {'form': form, 'project':project})
+    return render(request, 'horizon_scanning.html', {'form': form, 'project': project})
 
-@login_required
+
 def pestle(request, project_slug=None):
-    project = None
-    if project_slug:
-        project = get_object_or_404(Project, slug=project_slug, user=request.user)
     if request.method == 'POST':
         form = PestleForm(request.POST)
         if form.is_valid():
-            pestle = form.save(commit=False)
-            if project:
-                pestle.project = project
-            pestle.save()
-            if project:
-                return redirect('project_detail', project_slug=project.slug)
+            if request.user.is_authenticated:
+                project = form.cleaned_data['project']
+                if project:
+                    # Create a new Tool object and associate it with the project
+                    tool = Tool.objects.create(name="pestle", project=project)
+                    # Add the tool to the project's tools
+                    project.tools.add(tool)
+                    # Extract the PESTLE data from the form
+                    pestle_data = {
+                        'political': form.cleaned_data['political'],
+                        'economic': form.cleaned_data['economic'],
+                        'social': form.cleaned_data['social'],
+                        'technological': form.cleaned_data['technological'],
+                        'legal': form.cleaned_data['legal'],
+                        'environmental': form.cleaned_data['environmental'],
+                    }
+                    # Store the PESTLE data in the Tool object's data field
+                    tool.data = pestle_data
+                    # Save the tool
+                    tool.save()
+                    # Save the project
+                    project.save()
+                    # Redirect to the project detail page
+                    return redirect('project_detail', project_slug=project.slug)
+                else:
+                    return redirect('home')
+            else:
+                return redirect('home')
+        else:
+            return render(request, 'pestle.html', {'form': form})
     else:
         form = PestleForm()
-    return render(request, 'pestle.html', {'form': form, 'project':project})
+        if request.user.is_authenticated:
+            form.fields['project'].queryset = Project.objects.filter(user=request.user)
+            form.fields['project'].required = True
+        else:
+            form.fields['project'].widget = form.fields['project'].hidden_widget()
+            form.fields['project'].required = False
+    return render(request, 'pestle.html', {'form': form})
+

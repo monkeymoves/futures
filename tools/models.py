@@ -1,8 +1,9 @@
 # tools/models.py
-from django.db import models
+from django.db import models # Changed import
 from django.urls import reverse
 from django.conf import settings
 from django.utils.text import slugify
+#from django.contrib.postgres.fields import JSONField # Removed this import
 
 class Project(models.Model):
     title = models.CharField(max_length=255)
@@ -22,6 +23,7 @@ class Project(models.Model):
 class Tool(models.Model):
     name = models.CharField(max_length=255)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True)
+    data = models.JSONField(null=True, blank=True) # Changed field definition
 
     def get_absolute_url(self):
         """
@@ -30,31 +32,31 @@ class Tool(models.Model):
         if self.project:
             project_slug = self.project.slug
             if self.name == "delphi":
-                return reverse("delphi", kwargs={"project_slug": project_slug})
+                return reverse("project_delphi", kwargs={"project_slug": project_slug})
             elif self.name == "seven_questions":
-                return reverse("seven_questions", kwargs={"project_slug": project_slug})
+                return reverse("project_seven_questions", kwargs={"project_slug": project_slug})
             elif self.name == "three_horizons":
-                return reverse("three_horizons", kwargs={"project_slug": project_slug})
+                return reverse("project_three_horizons", kwargs={"project_slug": project_slug})
             elif self.name == "driver_mapping":
-                return reverse("driver_mapping", kwargs={"project_slug": project_slug})
+                return reverse("project_driver_mapping", kwargs={"project_slug": project_slug})
             elif self.name == "swot":
-                return reverse("swot", kwargs={"project_slug": project_slug})
+                return reverse("project_swot", kwargs={"project_slug": project_slug})
             elif self.name == "scenarios":
-                return reverse("scenarios", kwargs={"project_slug": project_slug})
+                return reverse("project_scenarios", kwargs={"project_slug": project_slug})
             elif self.name == "visioning":
-                return reverse("visioning", kwargs={"project_slug": project_slug})
+                return reverse("project_visioning", kwargs={"project_slug": project_slug})
             elif self.name == "futures_wheels":
-                return reverse("futures_wheels", kwargs={"project_slug": project_slug})
+                return reverse("project_futures_wheels", kwargs={"project_slug": project_slug})
             elif self.name == "policy_stress_testing":
-                return reverse("policy_stress_testing", kwargs={"project_slug": project_slug})
+                return reverse("project_policy_stress_testing", kwargs={"project_slug": project_slug})
             elif self.name == "roadmapping":
-                return reverse("roadmapping", kwargs={"project_slug": project_slug})
+                return reverse("project_roadmapping", kwargs={"project_slug": project_slug})
             elif self.name == "backcasting":
-                return reverse("backcasting", kwargs={"project_slug": project_slug})
+                return reverse("project_backcasting", kwargs={"project_slug": project_slug})
             elif self.name == "pestle":
-                return reverse("pestle", kwargs={"project_slug": project_slug})
+                return reverse("project_pestle", kwargs={"project_slug": project_slug})
             elif self.name == "horizon_scanning":
-                return reverse("horizon_scanning", kwargs={"project_slug": project_slug})
+                return reverse("project_horizon_scanning", kwargs={"project_slug": project_slug})
             else:
                 return None  # Or raise an exception if you prefer
         else:
