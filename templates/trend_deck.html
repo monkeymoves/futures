@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'futureapp/templates/base.css' %}">
+{% block content %}
+<h2>Trend Deck</h2>
+{% if project %}
+  <h3>Project: {{ project.title }}</h3>
+{% endif %}
+
+<!-- Container where trend cards will be displayed -->
+<div id="trend-deck-container">
+  <!-- Cards will be injected here by JavaScript -->
+</div>
+
+<!-- Hidden form to submit scenario data -->
+<form id="trend-deck-form" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save Scenario</button>
+</form>
+
+<script>
+  // Example card data from the UK Gov Trend Deck
+  const cards = [
+    { id: 1, title: "Card 1", description: "Trend description 1" },
+    { id: 2, title: "Card 2", description: "Trend description 2" },
+    { id: 3, title: "Card 3", description: "Trend description 3" },
+    { id: 4, title: "Card 4", description: "Trend description 4" },
+    { id: 5, title: "Card 5", description: "Trend description 5" }
+  ];
+
+  // Simple function to shuffle the array of cards
+  function shuffleCards(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function renderCards() {
+    // Make a copy and shuffle the cards
+    const shuffled = shuffleCards(cards.slice());
+    const container = document.getElementById('trend-deck-container');
+    container.innerHTML = '';
+    // Select 3 cards to reveal
+    const selectedCards = shuffled.slice(0, 3);
+    selectedCards.forEach(card => {
+      const cardElem = document.createElement('div');
+      cardElem.className = 'trend-card';
+      cardElem.innerHTML = `<h3>${card.title}</h3><p>${card.description}</p>`;
+      container.appendChild(cardElem);
+    });
+    // Populate the hidden form field with the selected cards (as a JSON string)
+    document.getElementById('id_scenario_data').value = JSON.stringify(selectedCards);
+  }
+
+  // Render the cards when the page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    renderCards();
+  });
+</script>
+
+<style>
+  .trend-card {
+    border: 1px solid #c30808;
+    padding: 1em;
+    margin: 0.5em;
+    display: inline-block;
+    width: 30%;
+  }
+</style>
+{% endblock %}

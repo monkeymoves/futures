@@ -39,4 +39,7 @@ urlpatterns = [
     path('projects/<slug:project_slug>/tools/pestle/', views.pestle, name='project_pestle'),
     path('projects/<slug:project_slug>/tools/horizon-scanning/', views.horizon_scanning, name='project_horizon_scanning'),
     path('projects/<slug:project_slug>/', views.project_detail, name='project_detail'),
+    path('tools/trend_deck/', views.trend_deck, name='trend_deck'),
+    # Optional: If you want to pass a project slug via the URL
+    path('tools/trend_deck/<slug:project_slug>/', views.trend_deck, name='trend_deck_project'),
 ]

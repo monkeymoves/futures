@@ -20,6 +20,7 @@ from tools.forms.roadmapping_form import RoadmappingForm
 from tools.forms.backcasting_form import BackcastingForm
 from tools.forms.horizon_scan_form import HorizonScanForm
 from tools.forms.pestle_form import PestleForm
+from tools.forms.trend_deck_form import TrendDeckForm
 
 
 def home(request):
@@ -255,3 +256,28 @@ def pestle(request, project_slug=None):
             form.fields['project'].required = False
     return render(request, 'pestle.html', {'form': form})
 
+def trend_deck(request, project_slug=None):
+    project = None
+    if project_slug:
+        project = get_object_or_404(Project, slug=project_slug, user=request.user)
+
+    if request.method == 'POST':
+        form = TrendDeckForm(request.POST)
+        if form.is_valid():
+            # Get the JSON string containing the scenario (selected cards)
+            scenario_data = form.cleaned_data['scenario_data']
+            # Create a new Tool object for the trend deck
+            tool = Tool.objects.create(
+                name="trend_deck",
+                project=project,
+                data=scenario_data  # data field can be a JSONField or TextField
+            )
+            if project:
+                project.tools.add(tool)
+                project.save()
+            # Redirect to project detail or home, depending on context
+            return redirect('project_detail', project_slug=project.slug) if project else redirect('home')
+    else:
+        form = TrendDeckForm()
+
+    return render(request, 'trend_deck.html', {'form': form, 'project': project})
